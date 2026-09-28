@@ -1,0 +1,2097 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PHONE WARS — Ultimate Phone Manufacturer</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:#eefaff;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 20% 0%,#12385a,transparent 32%),
+        radial-gradient(circle at 90% 15%,#4b174e,transparent 30%),
+        linear-gradient(135deg,#020409,#06111d 50%,#010205);
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.25;
+    background:
+        linear-gradient(rgba(0,225,255,.08) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,225,255,.08) 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+button{
+    cursor:pointer;
+}
+
+.top{
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 22px;
+    background:rgba(2,7,13,.88);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid #16405b;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:4px;
+}
+
+.logo span{
+    color:#00eaff;
+    text-shadow:0 0 15px #00eaff;
+}
+
+.topCenter{
+    text-align:center;
+}
+
+.month{
+    color:#00eaff;
+    font-weight:bold;
+}
+
+.timer{
+    color:#ffc94d;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.cash{
+    color:#63ffae;
+    font-size:19px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding:10px 15px;
+    background:#030912;
+    border-bottom:1px solid #123047;
+}
+
+nav button{
+    white-space:nowrap;
+    background:#091624;
+    color:#9eb7c7;
+    border:1px solid #193a50;
+    border-radius:8px;
+    padding:10px 14px;
+}
+
+nav button:hover,
+nav button.active{
+    color:white;
+    border-color:#00eaff;
+    background:#06344a;
+    box-shadow:0 0 15px #00eaff22;
+}
+
+.page{
+    display:none;
+    max-width:1500px;
+    margin:auto;
+    padding:20px;
+}
+
+.page.active{
+    display:block;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
+}
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.panel{
+    background:linear-gradient(145deg,rgba(11,27,42,.96),rgba(3,8,15,.97));
+    border:1px solid #183b54;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 15px 50px rgba(0,0,0,.35);
+}
+
+.panel h2{
+    margin-bottom:14px;
+}
+
+.hero{
+    min-height:350px;
+    position:relative;
+    overflow:hidden;
+}
+
+.heroTag{
+    color:#00eaff;
+    letter-spacing:3px;
+    font-weight:bold;
+}
+
+.hero h1{
+    font-size:44px;
+    max-width:720px;
+    margin:20px 0 10px;
+}
+
+.hero p{
+    color:#a5bccb;
+    max-width:700px;
+    line-height:1.7;
+}
+
+.hologram{
+    position:absolute;
+    right:35px;
+    top:50px;
+    width:210px;
+    height:280px;
+    border:4px solid #456071;
+    border-radius:40px;
+    transform:rotate(7deg);
+    box-shadow:
+        0 0 50px #00eaff55,
+        inset 0 0 40px #00eaff22;
+    background:
+        radial-gradient(circle at 50% 25%,#00eaff77,transparent 13%),
+        linear-gradient(145deg,#112e42,#02070c);
+}
+
+.hologram:before{
+    content:"";
+    position:absolute;
+    left:20px;
+    top:18px;
+    width:70px;
+    height:80px;
+    border-radius:20px;
+    background:#02080d;
+    box-shadow:
+        25px 0 0 -15px #152c3d,
+        50px 0 0 -15px #152c3d;
+}
+
+.hologram:after{
+    content:"NEXUS";
+    position:absolute;
+    top:130px;
+    width:100%;
+    text-align:center;
+    font-size:25px;
+    font-weight:bold;
+    color:#00eaff;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.stat{
+    background:#06111c;
+    border:1px solid #17364b;
+    padding:13px;
+    border-radius:10px;
+}
+
+.stat small{
+    color:#718b9c;
+}
+
+.stat strong{
+    display:block;
+    font-size:20px;
+    margin-top:5px;
+}
+
+.reporter{
+    min-height:350px;
+}
+
+.reporterScreen{
+    height:200px;
+    position:relative;
+    overflow:hidden;
+    border-radius:13px;
+    background:
+        radial-gradient(circle at 50% 30%,#557287,#172b3b 30%,#050b12 75%);
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+}
+
+.reporterBody{
+    width:120px;
+    height:145px;
+    border-radius:60px 60px 20px 20px;
+    background:linear-gradient(145deg,#283d50,#09131e);
+    position:relative;
+    animation:reporterMove 2s infinite ease-in-out;
+}
+
+.reporterBody:before{
+    content:"";
+    position:absolute;
+    width:57px;
+    height:67px;
+    left:31px;
+    top:-28px;
+    border-radius:50%;
+    background:#b77b62;
+}
+
+.reporterBody:after{
+    content:"";
+    position:absolute;
+    width:82px;
+    height:36px;
+    left:18px;
+    top:-39px;
+    border-radius:50%;
+    background:#131923;
+}
+
+.reporterArm{
+    position:absolute;
+    width:75px;
+    height:20px;
+    background:#273d50;
+    top:82px;
+    right:-48px;
+    border-radius:20px;
+    transform:rotate(-20deg);
+    transform-origin:left center;
+    animation:armMove 1.3s infinite ease-in-out;
+}
+
+.mic{
+    position:absolute;
+    right:20px;
+    bottom:25px;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#00eaff;
+    box-shadow:0 0 25px #00eaff;
+}
+
+@keyframes reporterMove{
+    50%{transform:translateY(-5px)}
+}
+
+@keyframes armMove{
+    50%{transform:rotate(22deg)}
+}
+
+.reportText{
+    line-height:1.5;
+    color:#c9e5f0;
+    margin-top:10px;
+}
+
+.ticker{
+    margin-top:12px;
+    background:#d80036;
+    padding:9px;
+    overflow:hidden;
+    white-space:nowrap;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.ticker span{
+    display:inline-block;
+    animation:ticker 20s linear infinite;
+}
+
+@keyframes ticker{
+    from{transform:translateX(100%)}
+    to{transform:translateX(-100%)}
+}
+
+.control{
+    margin:15px 0;
+}
+
+.control label{
+    display:flex;
+    justify-content:space-between;
+    color:#a7bfcd;
+    margin-bottom:7px;
+}
+
+input[type=range]{
+    width:100%;
+    accent-color:#00eaff;
+}
+
+input[type=text],
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    background:#06101a;
+    border:1px solid #24475c;
+    color:white;
+    border-radius:8px;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+input[type=color]{
+    width:100%;
+    height:45px;
+    background:#06101a;
+    border:1px solid #24475c;
+    border-radius:8px;
+}
+
+.btn{
+    border:0;
+    color:white;
+    padding:12px 18px;
+    border-radius:9px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#008eae,#0062a0);
+    box-shadow:0 0 20px #00eaff22;
+}
+
+.btn:hover{
+    filter:brightness(1.3);
+}
+
+.green{
+    background:linear-gradient(90deg,#008b61,#00bf82);
+}
+
+.gold{
+    background:linear-gradient(90deg,#a26b00,#e6ae22);
+}
+
+.red{
+    background:linear-gradient(90deg,#a51435,#df2850);
+}
+
+.phoneStage{
+    min-height:600px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:1000px;
+}
+
+.phone{
+    width:285px;
+    height:530px;
+    border:8px solid #647485;
+    border-radius:48px;
+    position:relative;
+    background:#050a0e;
+    box-shadow:
+        0 0 60px #00eaff55,
+        15px 25px 50px #000;
+    transform:rotateY(-9deg);
+    transition:.3s;
+}
+
+.phone:hover{
+    transform:rotateY(0deg) scale(1.02);
+}
+
+.phoneScreen{
+    position:absolute;
+    inset:9px;
+    border-radius:36px;
+    overflow:hidden;
+    background:#07131f;
+}
+
+.phoneLogo{
+    position:absolute;
+    top:130px;
+    width:100%;
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:white;
+}
+
+.phoneSpecs{
+    position:absolute;
+    bottom:65px;
+    width:100%;
+    text-align:center;
+    color:#9aefff;
+    font-size:12px;
+}
+
+.cameraBlock{
+    position:absolute;
+    z-index:5;
+    top:18px;
+    left:18px;
+    width:86px;
+    height:102px;
+    background:#030609;
+    border:1px solid #455869;
+    border-radius:20px;
+    padding:7px;
+}
+
+.lens{
+    display:inline-block;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    margin:3px;
+    background:radial-gradient(circle,#a4edff,#0c2736 55%,#020609);
+    border:2px solid #557587;
+}
+
+.costBox{
+    background:#06111b;
+    border:1px solid #1b4057;
+    padding:15px;
+    border-radius:10px;
+    line-height:1.9;
+    margin-top:15px;
+}
+
+.socialGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.post{
+    background:#06111b;
+    border:1px solid #193c53;
+    border-radius:12px;
+    padding:15px;
+}
+
+.postCompany{
+    color:#00eaff;
+    font-weight:bold;
+}
+
+.post p{
+    color:#bdd0db;
+    margin:10px 0;
+    line-height:1.5;
+}
+
+.post small{
+    color:#627f90;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:12px 9px;
+    text-align:left;
+    border-bottom:1px solid #173247;
+}
+
+th{
+    color:#7898aa;
+}
+
+.you{
+    background:#063548;
+}
+
+.rank{
+    color:#00eaff;
+    font-weight:bold;
+}
+
+.event{
+    background:#06121d;
+    border-left:3px solid #00eaff;
+    padding:12px;
+    margin:8px 0;
+    color:#abc0cd;
+}
+
+.award{
+    text-align:center;
+    padding:50px 20px;
+    border:1px solid #876d19;
+    border-radius:18px;
+    background:radial-gradient(circle,#684d0633,transparent 50%),#090c12;
+}
+
+.trophy{
+    font-size:85px;
+    animation:float 2s infinite ease-in-out;
+}
+
+@keyframes float{
+    50%{transform:translateY(-12px)}
+}
+
+.award h1{
+    color:#ffd84d;
+    margin:12px;
+}
+
+.material{
+    border:1px solid #1b4057;
+    background:#06111c;
+    border-radius:10px;
+    padding:13px;
+    margin:8px 0;
+}
+
+.material b{
+    color:#00eaff;
+}
+
+@media(max-width:900px){
+
+.grid,.grid2,.socialGrid{
+    grid-template-columns:1fr;
+}
+
+.hologram{
+    opacity:.25;
+    right:-30px;
+}
+
+.hero h1{
+    font-size:31px;
+}
+
+.stats{
+    grid-template-columns:1fr 1fr;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+<div class="logo">PHONE<span>WARS</span></div>
+
+<div class="topCenter">
+<div class="month">MONTH <span id="month">1</span></div>
+<div class="timer">AWARDS IN <span id="timer">10:00</span></div>
+</div>
+
+<div class="cash" id="cash">$500,000</div>
+
+</header>
+
+<nav>
+
+<button class="active" onclick="page('dashboard',this)">DASHBOARD</button>
+<button onclick="page('lab',this)">PHONE LAB</button>
+<button onclick="page('factory',this)">FACTORY</button>
+<button onclick="page('social',this)">SOCIAL</button>
+<button onclick="page('market',this)">MARKET</button>
+<button onclick="page('news',this)">LIVE NEWS</button>
+<button onclick="page('award',this)">AWARDS</button>
+
+</nav>
+
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+<div class="grid">
+
+<div class="panel hero">
+
+<div class="heroTag">GLOBAL SMARTPHONE CHAMPIONSHIP</div>
+
+<h1>Build it. Price it. Sell it. Become the world's biggest phone company.</h1>
+
+<p>
+Design smartphones from the ground up. Spend money on better materials,
+improve cameras and processors, choose your price, release your phone,
+watch sales happen and reinvest your profits into even more advanced technology.
+</p>
+
+<br>
+
+<button class="btn" onclick="page('lab')">
+ENTER PHONE LAB
+</button>
+
+<div class="hologram"></div>
+
+</div>
+
+
+<div class="panel reporter">
+
+<h2>🔴 LIVE — WORLD TECH NEWS</h2>
+
+<div class="reporterScreen">
+
+<div class="reporterBody">
+<div class="reporterArm"></div>
+</div>
+
+<div class="mic"></div>
+
+</div>
+
+<div class="reportText" id="reportText">
+"Good evening. I'm Marcus Vale reporting live.
+Ten smartphone companies are preparing for another
+month of intense competition."
+</div>
+
+<div class="ticker">
+<span id="ticker">
+BREAKING NEWS — TEN COMPANIES COMPETING — NEW PHONES ARRIVING —
+MARKET WATCHERS ARE MONITORING SALES —
+</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<small>COMPANY CASH</small>
+<strong id="cashStat">$500K</strong>
+</div>
+
+<div class="stat">
+<small>REPUTATION</small>
+<strong id="rep">50</strong>
+</div>
+
+<div class="stat">
+<small>MONTH SALES</small>
+<strong id="sales">0</strong>
+</div>
+
+<div class="stat">
+<small>MARKET SHARE</small>
+<strong id="share">0%</strong>
+</div>
+
+<div class="stat">
+<small>PHONE QUALITY</small>
+<strong id="quality">0</strong>
+</div>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h2>⚡ LIVE COMPANY EVENTS</h2>
+
+<div id="events"></div>
+
+</div>
+
+</section>
+
+
+<!-- LAB -->
+
+<section class="page" id="lab">
+
+<div class="grid2">
+
+<div class="panel">
+
+<h2>📱 FUTURE PHONE DESIGN LAB</h2>
+
+<div class="control">
+<label>Phone Name <span id="nameOut">Ultra X</span></label>
+<input id="phoneName" type="text" value="Ultra X">
+</div>
+
+<div class="control">
+<label>Body Material <span id="materialOut"></span></label>
+
+<select id="material">
+<option value="plastic">Reinforced Polymer — $40</option>
+<option value="aluminum">Aerospace Aluminum — $85</option>
+<option value="titanium">Grade 5 Titanium — $180</option>
+<option value="ceramic">Nano Ceramic — $250</option>
+<option value="carbon">Carbon Fiber Composite — $360</option>
+<option value="sapphire">Sapphire Glass Armor — $500</option>
+<option value="graphene">Graphene Composite — $750</option>
+<option value="quantum">Quantum Ceramic Alloy — $1,200</option>
+</select>
+</div>
+
+<div class="control">
+<label>Camera <span id="cameraOut">108 MP</span></label>
+<input id="camera" type="range" min="12" max="500" value="108">
+</div>
+
+<div class="control">
+<label>RAM <span id="ramOut">12 GB</span></label>
+<input id="ram" type="range" min="4" max="128" value="12">
+</div>
+
+<div class="control">
+<label>Storage <span id="storageOut">256 GB</span></label>
+<input id="storage" type="range" min="64" max="4096" step="64" value="256">
+</div>
+
+<div class="control">
+<label>Battery <span id="batteryOut">5000 mAh</span></label>
+<input id="battery" type="range" min="2500" max="15000" step="100" value="5000">
+</div>
+
+<div class="control">
+<label>Display <span id="displayOut">6.7"</span></label>
+<input id="display" type="range" min="5.5" max="8.5" step=".1" value="6.7">
+</div>
+
+<div class="control">
+<label>Processor Tier</label>
+
+<select id="processor">
+<option value="1">Standard Silicon — $80</option>
+<option value="2">Performance Silicon — $180</option>
+<option value="3">Flagship 3nm — $320</option>
+<option value="4">Ultra 2nm — $550</option>
+<option value="5">Experimental AI Chip — $900</option>
+</select>
+</div>
+
+<div class="control">
+<label>Phone Color</label>
+<input id="color" type="color" value="#092235">
+</div>
+
+<div class="control">
+<label>Retail Price <span id="priceOut">$999</span></label>
+<input id="price" type="range" min="199" max="4999" step="50" value="999">
+</div>
+
+<div class="costBox">
+<b>Manufacturing Cost:</b> <span id="manufacturingCost">$0</span><br>
+<b>Profit Per Phone:</b> <span id="profit">$0</span><br>
+<b>Estimated Quality:</b> <span id="labQuality">0</span>/100
+</div>
+
+<br>
+
+<button class="btn green" onclick="releasePhone()">
+🚀 RELEASE PHONE
+</button>
+
+</div>
+
+
+<div class="panel phoneStage">
+
+<div class="phone" id="phone">
+
+<div class="cameraBlock">
+
+<div class="lens"></div>
+<div class="lens"></div>
+<div class="lens"></div>
+<div class="lens"></div>
+
+</div>
+
+<div class="phoneScreen" id="phoneScreen">
+
+<div class="phoneLogo" id="phoneLogo">
+ULTRA X
+</div>
+
+<div class="phoneSpecs" id="phoneSpecs">
+108MP • 12GB • 256GB
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FACTORY -->
+
+<section class="page" id="factory">
+
+<div class="grid2">
+
+<div class="panel">
+
+<h2>🏭 ADVANCED MANUFACTURING</h2>
+
+<p style="color:#9db4c2;line-height:1.6">
+Your phone is built from the components you choose.
+Premium materials increase manufacturing costs but can increase
+quality, reputation and demand.
+</p>
+
+<br>
+
+<div class="material">
+<b>BODY</b><br>
+Current: <span id="factoryBody">Reinforced Polymer</span>
+</div>
+
+<div class="material">
+<b>PROCESSOR</b><br>
+Current: <span id="factoryCPU">Standard Silicon</span>
+</div>
+
+<div class="material">
+<b>CAMERA SYSTEM</b><br>
+Current: <span id="factoryCamera">108 MP</span>
+</div>
+
+<div class="material">
+<b>BATTERY</b><br>
+Current: <span id="factoryBattery">5000 mAh</span>
+</div>
+
+<div class="material">
+<b>STORAGE</b><br>
+Current: <span id="factoryStorage">256 GB</span>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>💰 BUSINESS CALCULATOR</h2>
+
+<div class="costBox" id="business">
+</div>
+
+<br>
+
+<h2>💡 MONEY LOOP</h2>
+
+<p style="color:#a9c0cc;line-height:1.8">
+SELL PHONE<br>
+↓<br>
+MAKE MONEY<br>
+↓<br>
+BUY BETTER MATERIALS<br>
+↓<br>
+BUILD BETTER PHONE<br>
+↓<br>
+RAISE REPUTATION<br>
+↓<br>
+SELL MORE PHONES
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SOCIAL -->
+
+<section class="page" id="social">
+
+<div class="panel">
+
+<h2>🌐 PHONE WARS SOCIAL NETWORK</h2>
+
+<p style="color:#91aab9;margin-bottom:15px">
+Publish statements about your new phone. Rivals and the news network
+will react to what you say.
+</p>
+
+<textarea id="statement"
+placeholder="Example: Our new flagship uses Grade 5 Titanium and our most advanced camera ever..."></textarea>
+
+<br><br>
+
+<button class="btn" onclick="publishStatement()">
+📢 PUBLISH STATEMENT
+</button>
+
+</div>
+
+<br>
+
+<div class="socialGrid" id="socialFeed"></div>
+
+</section>
+
+
+<!-- MARKET -->
+
+<section class="page" id="market">
+
+<div class="panel">
+
+<h2>🏢 GLOBAL PHONE COMPETITION</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Company</th>
+<th>Phone</th>
+<th>Sales</th>
+<th>Reputation</th>
+<th>Market Share</th>
+</tr>
+</thead>
+
+<tbody id="leaderboard"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- NEWS -->
+
+<section class="page" id="news">
+
+<div class="panel">
+
+<h2>📺 GLOBAL TECH NEWS — LIVE</h2>
+
+<div class="reporterScreen" style="height:300px">
+
+<div class="reporterBody" style="transform:scale(1.5)">
+<div class="reporterArm"></div>
+</div>
+
+<div class="mic"></div>
+
+</div>
+
+<br>
+
+<div id="newsFeed"></div>
+
+</div>
+
+</section>
+
+
+<!-- AWARDS -->
+
+<section class="page" id="award">
+
+<div class="panel award">
+
+<div class="trophy">🏆</div>
+
+<h1>BEST-SELLING PHONE AWARD</h1>
+
+<p style="color:#b6c4cc">
+At the end of every 10-minute month, all companies are compared.
+The company with the highest monthly phone sales receives the award.
+</p>
+
+<br>
+
+<div id="lastAward">
+No monthly award has been completed yet.
+</div>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h2>🏆 AWARD HISTORY</h2>
+
+<div id="awardHistory"></div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* ==============================
+   GAME STATE
+============================== */
+
+let saveData=localStorage.getItem("PHONE_WARS");
+
+let game=saveData ? JSON.parse(saveData) : {
+
+month:1,
+seconds:600,
+money:500000,
+reputation:50,
+sales:0,
+released:false,
+lastAward:"None",
+awards:[],
+posts:[],
+events:[],
+news:[],
+
+phone:{
+name:"Ultra X",
+material:"plastic",
+camera:108,
+ram:12,
+storage:256,
+battery:5000,
+display:6.7,
+processor:1,
+color:"#092235",
+price:999
+}
+
+};
+
+
+/* ==============================
+   10 RIVALS
+============================== */
+
+let rivals=[
+{name:"NovaCore",power:92},
+{name:"Titan Mobile",power:89},
+{name:"Apex Systems",power:86},
+{name:"Quantum Devices",power:84},
+{name:"Vertex Mobile",power:82},
+{name:"Orion Tech",power:79},
+{name:"Zenith Labs",power:77},
+{name:"HyperCell",power:74},
+{name:"Nexora",power:71},
+{name:"Voltix",power:68}
+];
+
+let rivalState=rivals.map((r,i)=>({
+
+name:r.name,
+power:r.power,
+sales:Math.floor(Math.random()*4000)+1000,
+reputation:r.power,
+phone:[
+"Nova Pro Max",
+"Titan Ultra",
+"Apex X1",
+"Quantum Z",
+"Vertex Prime",
+"Orion Max",
+"Zenith Ultra",
+"HyperCell X",
+"Nexora Pro",
+"Voltix One"
+][i]
+
+}));
+
+
+/* ==============================
+   MATERIAL COSTS
+============================== */
+
+const materialData={
+
+plastic:{
+name:"Reinforced Polymer",
+cost:40,
+quality:4
+},
+
+aluminum:{
+name:"Aerospace Aluminum",
+cost:85,
+quality:10
+},
+
+titanium:{
+name:"Grade 5 Titanium",
+cost:180,
+quality:18
+},
+
+ceramic:{
+name:"Nano Ceramic",
+cost:250,
+quality:23
+},
+
+carbon:{
+name:"Carbon Fiber Composite",
+cost:360,
+quality:29
+},
+
+sapphire:{
+name:"Sapphire Glass Armor",
+cost:500,
+quality:36
+},
+
+graphene:{
+name:"Graphene Composite",
+cost:750,
+quality:44
+},
+
+quantum:{
+name:"Quantum Ceramic Alloy",
+cost:1200,
+quality:55
+}
+
+};
+
+const cpuData={
+
+1:{name:"Standard Silicon",cost:80,quality:5},
+2:{name:"Performance Silicon",cost:180,quality:12},
+3:{name:"Flagship 3nm",cost:320,quality:20},
+4:{name:"Ultra 2nm",cost:550,quality:30},
+5:{name:"Experimental AI Chip",cost:900,quality:43}
+
+};
+
+
+/* ==============================
+   NAVIGATION
+============================== */
+
+function page(id,button){
+
+document.querySelectorAll(".page").forEach(x=>{
+x.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+document.querySelectorAll("nav button").forEach(x=>{
+x.classList.remove("active");
+});
+
+if(button)button.classList.add("active");
+
+}
+
+
+/* ==============================
+   PHONE CALCULATIONS
+============================== */
+
+function manufacturingCost(){
+
+let p=game.phone;
+
+let material=materialData[p.material];
+let cpu=cpuData[p.processor];
+
+return Math.round(
+material.cost+
+cpu.cost+
+p.camera*.55+
+p.ram*5+
+p.storage*.10+
+p.battery*.035+
+p.display*8+
+45
+);
+
+}
+
+
+function phoneQuality(){
+
+let p=game.phone;
+
+let score=materialData[p.material].quality;
+score+=cpuData[p.processor].quality;
+
+score+=Math.min(20,p.camera/20);
+score+=Math.min(12,p.ram/5);
+score+=Math.min(10,p.storage/200);
+score+=Math.min(10,p.battery/600);
+score+=Math.min(7,p.display);
+
+let pricePenalty=0;
+
+if(p.price<400)pricePenalty=4;
+if(p.price>2500)pricePenalty=8;
+
+score-=pricePenalty;
+
+return Math.max(1,Math.min(100,score));
+}
+
+
+/* ==============================
+   CONTROLS
+============================== */
+
+function setupControls(){
+
+document.getElementById("phoneName").value=game.phone.name;
+document.getElementById("material").value=game.phone.material;
+document.getElementById("camera").value=game.phone.camera;
+document.getElementById("ram").value=game.phone.ram;
+document.getElementById("storage").value=game.phone.storage;
+document.getElementById("battery").value=game.phone.battery;
+document.getElementById("display").value=game.phone.display;
+document.getElementById("processor").value=game.phone.processor;
+document.getElementById("color").value=game.phone.color;
+document.getElementById("price").value=game.phone.price;
+
+document.querySelectorAll(
+"#phoneName,#material,#camera,#ram,#storage,#battery,#display,#processor,#color,#price"
+).forEach(el=>{
+el.addEventListener("input",readControls);
+el.addEventListener("change",readControls);
+});
+
+readControls();
+
+}
+
+
+function readControls(){
+
+game.phone.name=
+document.getElementById("phoneName").value || "Unnamed Phone";
+
+game.phone.material=document.getElementById("material").value;
+game.phone.camera=+document.getElementById("camera").value;
+game.phone.ram=+document.getElementById("ram").value;
+game.phone.storage=+document.getElementById("storage").value;
+game.phone.battery=+document.getElementById("battery").value;
+game.phone.display=+document.getElementById("display").value;
+game.phone.processor=+document.getElementById("processor").value;
+game.phone.color=document.getElementById("color").value;
+game.phone.price=+document.getElementById("price").value;
+
+updatePhoneVisuals();
+save();
+
+}
+
+
+function updatePhoneVisuals(){
+
+let p=game.phone;
+let material=materialData[p.material];
+let cpu=cpuData[p.processor];
+
+document.getElementById("nameOut").textContent=p.name;
+document.getElementById("materialOut").textContent=material.name;
+document.getElementById("cameraOut").textContent=p.camera+" MP";
+document.getElementById("ramOut").textContent=p.ram+" GB";
+document.getElementById("storageOut").textContent=p.storage+" GB";
+document.getElementById("batteryOut").textContent=p.battery+" mAh";
+document.getElementById("displayOut").textContent=p.display+'"';
+document.getElementById("priceOut").textContent=
+"$"+p.price.toLocaleString();
+
+let cost=manufacturingCost();
+
+document.getElementById("manufacturingCost").textContent=
+"$"+cost.toLocaleString();
+
+document.getElementById("profit").textContent=
+"$"+Math.max(0,p.price-cost).toLocaleString();
+
+document.getElementById("labQuality").textContent=
+Math.round(phoneQuality());
+
+document.getElementById("phoneLogo").textContent=
+p.name.toUpperCase();
+
+document.getElementById("phoneSpecs").textContent=
+`${p.camera}MP • ${p.ram}GB • ${p.storage}GB • ${p.battery}mAh`;
+
+document.getElementById("phoneScreen").style.background=
+`radial-gradient(circle at 50% 25%,${p.color}dd,transparent 23%),
+linear-gradient(145deg,${p.color},#02060a)`;
+
+document.getElementById("factoryBody").textContent=
+material.name;
+
+document.getElementById("factoryCPU").textContent=
+cpu.name;
+
+document.getElementById("factoryCamera").textContent=
+p.camera+" MP";
+
+document.getElementById("factoryBattery").textContent=
+p.battery+" mAh";
+
+document.getElementById("factoryStorage").textContent=
+p.storage+" GB";
+
+document.getElementById("business").innerHTML=`
+
+Manufacturing cost:
+<b>$${cost.toLocaleString()}</b><br>
+
+Retail price:
+<b>$${p.price.toLocaleString()}</b><br>
+
+Profit per phone:
+<b style="color:#63ffae">
+$${Math.max(0,p.price-cost).toLocaleString()}
+</b><br>
+
+Quality:
+<b style="color:#00eaff">
+${Math.round(phoneQuality())}/100
+</b>
+
+`;
+
+}
+
+
+/* ==============================
+   RELEASE
+============================== */
+
+function releasePhone(){
+
+readControls();
+
+let cost=manufacturingCost();
+let quality=phoneQuality();
+
+if(cost>=game.phone.price){
+
+addEvent("⚠️ Your manufacturing cost is too high for the current retail price.");
+
+return;
+
+}
+
+if(game.money<cost*20){
+
+addEvent(
+"⚠️ You need enough money to manufacture the first production batch."
+);
+
+return;
+
+}
+
+let productionCost=cost*20;
+
+game.money-=productionCost;
+
+game.released=true;
+
+game.reputation+=Math.max(1,Math.round(quality/15));
+
+addEvent(
+`🚀 ${game.phone.name} has officially launched. Production batch: 20 units.`
+);
+
+addNews(
+`BREAKING: ${game.phone.name} has entered the global smartphone market.`
+);
+
+addPost(
+"YOUR COMPANY",
+`We are proud to release ${game.phone.name}. Built with ${materialData[game.phone.material].name}, ${game.phone.camera}MP imaging and ${game.phone.ram}GB RAM.`
+);
+
+updateAll();
+
+}
+
+
+/* ==============================
+   SALES
+============================== */
+
+function generateSales(){
+
+if(!game.released)return 0;
+
+let quality=phoneQuality();
+let cost=manufacturingCost();
+
+let margin=Math.max(0,game.phone.price-cost);
+
+let priceFactor=1;
+
+if(game.phone.price<600)
+priceFactor=1.35;
+
+else if(game.phone.price<1000)
+priceFactor=1.15;
+
+else if(game.phone.price<1600)
+priceFactor=1;
+
+else if(game.phone.price<2500)
+priceFactor=.78;
+
+else
+priceFactor=.5;
+
+let reputationFactor=
+.5+(game.reputation/100);
+
+let demand=
+quality*priceFactor*reputationFactor;
+
+return Math.max(
+1,
+Math.floor(demand*(.7+Math.random()*.8))
+);
+
+}
+
+
+/* ==============================
+   RIVAL ECONOMY
+============================== */
+
+function updateRivals(){
+
+rivalState.forEach(r=>{
+
+let event=Math.random();
+
+if(event<.04){
+
+r.power+=Math.floor(Math.random()*5)+1;
+r.reputation+=Math.floor(Math.random()*3)+1;
+
+addNews(
+`${r.name} announces a major technology upgrade.`
+);
+
+}
+
+let sales=Math.floor(
+(r.power*.8+r.reputation*.4)*
+(.7+Math.random()*.8)
+);
+
+r.sales+=sales;
+
+});
+
+}
+
+
+/* ==============================
+   SOCIAL
+============================== */
+
+function addPost(company,text){
+
+game.posts.unshift({
+company,
+text,
+time:"just now"
+});
+
+game.posts=game.posts.slice(0,40);
+
+}
+
+function publishStatement(){
+
+let text=document.getElementById("statement").value.trim();
+
+if(!text)return;
+
+game.reputation+=2;
+
+addPost("YOUR COMPANY",text);
+
+addNews(
+`Your company's latest statement is spreading across social media.`
+);
+
+addEvent(
+"📢 Your statement has been published worldwide."
+);
+
+document.getElementById("statement").value="";
+
+updateAll();
+
+}
+
+function rivalSocial(){
+
+let r=rivalState[
+Math.floor(Math.random()*rivalState.length)
+];
+
+let statements=[
+
+`Our engineers have created something special for this generation.`,
+
+`We are investing heavily in camera technology.`,
+
+`Our next flagship is built for maximum performance.`,
+
+`We believe customers deserve premium materials.`,
+
+`Our new phone is coming soon. Stay tuned.`,
+
+`The market will decide which company deserves the crown.`
+
+];
+
+addPost(
+r.name,
+statements[Math.floor(Math.random()*statements.length)]
+);
+
+}
+
+
+/* ==============================
+   NEWS
+============================== */
+
+function addNews(text){
+
+game.news.unshift(text);
+
+game.news=game.news.slice(0,30);
+
+}
+
+function newsBroadcast(){
+
+let stories=[
+
+`Marcus Vale: "Markets are watching the ${game.phone.name} very closely."`,
+
+`Marcus Vale: "The latest production numbers are arriving from manufacturers."`,
+
+`Marcus Vale: "Social media discussion surrounding the Phone Wars is accelerating."`,
+
+`Marcus Vale: "Premium materials are increasing manufacturing costs across the industry."`,
+
+`Marcus Vale: "Several rivals are preparing aggressive launches."`,
+
+`Marcus Vale: "Analysts are watching the battle between price and technology."`
+
+];
+
+let story=stories[Math.floor(Math.random()*stories.length)];
+
+document.getElementById("reportText").textContent=
+'"'+story+'"';
+
+document.getElementById("ticker").textContent=
+"BREAKING — "+story+
+" — LIVE MARKET UPDATE — TEN COMPANIES COMPETING —";
+
+addNews(story);
+
+renderNews();
+
+}
+
+
+/* ==============================
+   EVENTS
+============================== */
+
+function addEvent(text){
+
+game.events.unshift({
+time:new Date().toLocaleTimeString(),
+text
+});
+
+game.events=game.events.slice(0,15);
+
+}
+
+
+/* ==============================
+   MARKET
+============================== */
+
+function renderMarket(){
+
+let companies=[
+
+{
+name:"YOUR COMPANY",
+phone:game.phone.name,
+sales:game.sales,
+rep:game.reputation
+},
+
+...rivalState.map(r=>({
+name:r.name,
+phone:r.phone,
+sales:r.sales,
+rep:r.reputation
+}))
+
+];
+
+let total=companies.reduce((a,b)=>a+b.sales,0);
+
+companies.sort((a,b)=>b.sales-a.sales);
+
+document.getElementById("leaderboard").innerHTML=
+
+companies.map((c,i)=>{
+
+let share=
+total?((c.sales/total)*100).toFixed(1):"0";
+
+return `
+
+<tr class="${c.name==="YOUR COMPANY"?"you":""}">
+
+<td class="rank">${i+1}</td>
+
+<td>${c.name}</td>
+
+<td>${c.phone}</td>
+
+<td>${c.sales.toLocaleString()}</td>
+
+<td>${Math.round(c.rep)}</td>
+
+<td>${share}%</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+let mine=companies.find(x=>x.name==="YOUR COMPANY");
+
+let share=
+total?(mine.sales/total)*100:0;
+
+document.getElementById("share").textContent=
+share.toFixed(1)+"%";
+
+}
+
+
+/* ==============================
+   AWARD
+============================== */
+
+function endMonth(){
+
+let companies=[
+
+{
+name:"YOUR COMPANY",
+sales:game.sales
+},
+
+...rivalState.map(r=>({
+name:r.name,
+sales:Math.floor(r.sales/10)
+}))
+
+];
+
+companies.sort((a,b)=>b.sales-a.sales);
+
+let winner=companies[0];
+
+let prize=100000;
+
+game.money+=game.sales*8;
+
+if(winner.name==="YOUR COMPANY"){
+
+game.money+=prize;
+game.reputation+=10;
+
+game.lastAward=
+`🏆 YOU WON! ${game.phone.name} was the best-selling phone of Month ${game.month}.`;
+
+game.awards.unshift(game.lastAward);
+
+alert(
+`🏆 BEST-SELLING PHONE AWARD!\n\n`+
+`${game.phone.name}\n\n`+
+`You won Month ${game.month}!\n\n`+
+`Prize: $100,000`
+);
+
+}else{
+
+game.lastAward=
+`🏆 ${winner.name} won Month ${game.month}.`;
+
+game.awards.unshift(game.lastAward);
+
+alert(
+`🏆 MONTH ${game.month} AWARD\n\n`+
+`${winner.name} won the Best-Selling Phone award.`
+);
+
+}
+
+addNews(game.lastAward);
+
+addEvent(game.lastAward);
+
+game.month++;
+
+game.seconds=600;
+
+game.sales=0;
+
+game.released=false;
+
+game.money+=50000;
+
+game.reputation=Math.max(20,game.reputation-2);
+
+rivalState.forEach(r=>{
+r.sales=0;
+r.power+=Math.floor(Math.random()*4);
+});
+
+addEvent(
+`🌎 MONTH ${game.month} HAS STARTED — Build your next flagship!`
+);
+
+}
+
+
+/* ==============================
+   CLOCK
+============================== */
+
+setInterval(()=>{
+
+game.seconds--;
+
+if(game.seconds<=0){
+
+endMonth();
+
+}else{
+
+let sales=generateSales();
+
+if(sales>0){
+
+game.sales+=sales;
+
+let profit=Math.max(
+0,
+game.phone.price-manufacturingCost()
+);
+
+game.money+=Math.round(
+sales*profit*.02
+);
+
+}
+
+updateRivals();
+
+if(Math.random()<.06)
+rivalSocial();
+
+if(Math.random()<.04){
+
+let events=[
+
+"📈 Your phone is trending on PhoneNet.",
+
+"🔥 Rival marketing campaign detected.",
+
+"📦 Component supplier reports higher demand.",
+
+"📱 Customers are praising your new phone.",
+
+"💰 Investors are discussing your company.",
+
+"⚡ A rival announces a premium material upgrade."
+
+];
+
+addEvent(
+events[Math.floor(Math.random()*events.length)]
+);
+
+}
+
+}
+
+updateAll();
+
+},1000);
+
+
+/* ==============================
+   RENDERING
+============================== */
+
+function formatTime(s){
+
+let m=Math.floor(s/60);
+
+let sec=s%60;
+
+return String(m).padStart(2,"0")+":"+
+String(sec).padStart(2,"0");
+
+}
+
+function renderSocial(){
+
+document.getElementById("socialFeed").innerHTML=
+
+game.posts.map(p=>`
+
+<div class="post">
+
+<div class="postCompany">
+◉ ${escapeHTML(p.company)}
+</div>
+
+<p>${escapeHTML(p.text)}</p>
+
+<small>${p.time} · ♥ ${Math.floor(Math.random()*8000)+100}</small>
+
+</div>
+
+`).join("");
+
+}
+
+function renderEvents(){
+
+document.getElementById("events").innerHTML=
+
+game.events.slice(0,10).map(e=>`
+
+<div class="event">
+<b>${e.time}</b> — ${escapeHTML(e.text)}
+</div>
+
+`).join("");
+
+}
+
+function renderNews(){
+
+document.getElementById("newsFeed").innerHTML=
+
+game.news.slice(0,20).map(n=>`
+
+<div class="event">
+📺 ${escapeHTML(n)}
+</div>
+
+`).join("");
+
+}
+
+function renderAwards(){
+
+document.getElementById("lastAward").textContent=
+game.lastAward;
+
+document.getElementById("awardHistory").innerHTML=
+
+game.awards.length?
+
+game.awards.map(x=>`
+<div class="event">🏆 ${escapeHTML(x)}</div>
+`).join("")
+
+:
+
+"No awards yet.";
+
+}
+
+function escapeHTML(x){
+
+return String(x)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* ==============================
+   MASTER UPDATE
+============================== */
+
+function updateAll(){
+
+document.getElementById("month").textContent=
+game.month;
+
+document.getElementById("timer").textContent=
+formatTime(game.seconds);
+
+document.getElementById("cash").textContent=
+"$"+Math.round(game.money).toLocaleString();
+
+document.getElementById("cashStat").textContent=
+"$"+Math.round(game.money/1000)+"K";
+
+document.getElementById("rep").textContent=
+Math.round(game.reputation);
+
+document.getElementById("sales").textContent=
+game.sales.toLocaleString();
+
+document.getElementById("quality").textContent=
+Math.round(phoneQuality());
+
+renderEvents();
+renderSocial();
+renderMarket();
+renderNews();
+renderAwards();
+updatePhoneVisuals();
+
+save();
+
+}
+
+
+/* ==============================
+   SAVE
+============================== */
+
+function save(){
+
+localStorage.setItem(
+"PHONE_WARS",
+JSON.stringify(game)
+);
+
+}
+
+
+/* ==============================
+   INITIAL DATA
+============================== */
+
+if(!game.posts.length){
+
+addPost(
+"NovaCore",
+"Our engineers are preparing our next flagship."
+);
+
+addPost(
+"Titan Mobile",
+"We are investing more money into premium materials."
+);
+
+addPost(
+"Apex Systems",
+"Our camera technology will be our biggest upgrade yet."
+);
+
+addPost(
+"Quantum Devices",
+"Performance is about to reach a new level."
+);
+
+addPost(
+"Vertex Mobile",
+"We are preparing something customers have never seen."
+);
+
+addEvent(
+"📡 PHONE WARS is online. Ten companies are competing."
+);
+
+addNews(
+"Marcus Vale: Ten smartphone manufacturers have entered the competition."
+);
+
+}
+
+setupControls();
+
+updateAll();
+
+setInterval(newsBroadcast,15000);
+
+</script>
+
+</body>
+</html>
+```
